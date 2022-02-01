@@ -20,21 +20,21 @@ cray-service:
   fullnameOverride: "cray-power-control"
   etcdCluster:
     enabled: true
+  replicaCount: 3
   affinity:
     podAntiAffinity:
-      preferredDuringSchedulingIgnoredDuringExecution:
-        - weight: 100
-          podAffinityTerm:
-            labelSelector:
-              matchExpressions:
-              - key: app
-                operator: In
-                values:
-                  - istio-ingressgateway
-                  - istio-ingressgateway-hmn
-            topologyKey: "kubernetes.io/hostname"
-            namespaces:
-              - istio-system
+      requiredDuringSchedulingIgnoredDuringExecution:
+      - topologyKey: kubernetes.io/hostname
+        labelSelector:
+          matchExpressions:
+            - key: app.kubernetes.io/name
+              operator: In
+              values:
+              - cray-power-control
+  strategy:
+    rollingUpdate:
+      maxUnavailable: 50%
+    type: RollingUpdate
   containers:
     cray-power-control:
       name: "cray-power-control"
