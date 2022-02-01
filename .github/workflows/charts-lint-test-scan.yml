@@ -1,0 +1,19 @@
+name: Lint, test, and scan Helm charts
+on:
+  pull_request:
+    branches:
+      - master
+      - main
+      - release/**
+  workflow_dispatch:
+jobs:
+  lint-test-scan:
+    uses: Cray-HPE/hms-build-chart-workflows/.github/workflows/charts-lint-test-scan.yaml@v1
+    with:
+      lint-charts: ${{ github.event_name == 'pull_request' }}
+      test-charts: false
+      ct-yaml: ct.yaml
+      scan-image-snyk-args: "--severity-threshold=high"
+      scan-chart-snyk-args: "--severity-threshold=high"
+    secrets:
+      snyk-token: ${{ secrets.SNYK_TOKEN }}

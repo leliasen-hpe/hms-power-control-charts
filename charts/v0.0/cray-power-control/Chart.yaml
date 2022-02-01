@@ -1,0 +1,17 @@
+apiVersion: v2
+name: "cray-power-control"
+version: 0.0.1
+description: "Kubernetes resources for cray-power-control"
+home: "https://github.com/Cray-HPE/hms-power-control-charts"
+sources:
+  - "https://github.com/Cray-HPE/hms-power-control"
+dependencies:
+  - name: cray-service
+    version: "~7.0.0"
+    repository: https://artifactory.algol60.net/artifactory/csm-helm-charts
+maintainers:
+  - name: Hardware Management
+    url: https://github.com/orgs/Cray-HPE/teams/hardware-management
+appVersion: "0.0.1"
+annotations:
+  artifacthub.io/license: "MIT"
