@@ -100,3 +100,4 @@ cray-service:
     enabled: true
     uri: "/"
     prefix: "/apis/power-control/v1/"
+
