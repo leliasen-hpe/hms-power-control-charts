@@ -7,10 +7,7 @@
 #   tag: "" (default = "latest")
 #   pullPolicy: "" (default = "IfNotPresent")
 global:
-  appVersion: 0.0.1
-image:
-  repository: artifactory.algol60.net/csm-docker/stable/cray-power-control
-  pullPolicy: IfNotPresent
+  appVersion: 0.0.1-20220201202912.1ad88cd
 
 hms_ca_uri: ""
 
@@ -20,26 +17,26 @@ cray-service:
   fullnameOverride: "cray-power-control"
   etcdCluster:
     enabled: true
+  replicaCount: 3
   affinity:
     podAntiAffinity:
-      preferredDuringSchedulingIgnoredDuringExecution:
-        - weight: 100
-          podAffinityTerm:
-            labelSelector:
-              matchExpressions:
-              - key: app
-                operator: In
-                values:
-                  - istio-ingressgateway
-                  - istio-ingressgateway-hmn
-            topologyKey: "kubernetes.io/hostname"
-            namespaces:
-              - istio-system
+      requiredDuringSchedulingIgnoredDuringExecution:
+      - topologyKey: kubernetes.io/hostname
+        labelSelector:
+          matchExpressions:
+            - key: app.kubernetes.io/name
+              operator: In
+              values:
+              - cray-power-control
+  strategy:
+    rollingUpdate:
+      maxUnavailable: 50%
+    type: RollingUpdate
   containers:
     cray-power-control:
       name: "cray-power-control"
       image:
-        repository: "artifactory.algol60.net/csm-docker/stable/cray-power-control"
+        repository: "artifactory.algol60.net/csm-docker/unstable/cray-power-control"
       resources:
         limits:
           cpu: "4"
