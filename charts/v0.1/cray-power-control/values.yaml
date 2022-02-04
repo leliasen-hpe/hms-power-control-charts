@@ -7,10 +7,7 @@
 #   tag: "" (default = "latest")
 #   pullPolicy: "" (default = "IfNotPresent")
 global:
-  appVersion: 0.0.1
-image:
-  repository: artifactory.algol60.net/csm-docker/stable/cray-power-control
-  pullPolicy: IfNotPresent
+  appVersion: 0.0.1-20220201202912.1ad88cd
 
 hms_ca_uri: ""
 
@@ -39,7 +36,7 @@ cray-service:
     cray-power-control:
       name: "cray-power-control"
       image:
-        repository: "artifactory.algol60.net/csm-docker/stable/cray-power-control"
+        repository: "artifactory.algol60.net/csm-docker/unstable/cray-power-control"
       resources:
         limits:
           cpu: "4"

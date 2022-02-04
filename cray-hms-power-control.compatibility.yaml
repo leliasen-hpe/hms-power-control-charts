@@ -9,16 +9,16 @@ chartVersionToCSMVersion:
 # This is the idealized world
 chartVersionToApplicationVersion:
   # Chart version: Application version
-  "0.0.1": "0.0.1"
-  "0.1.0": "0.0.1"
+  "0.0.1": "0.0.1-20220201202912.1ad88cd"
+  "0.1.0": "0.0.1-20220201202912.1ad88cd"
 
 
 # Test results for combinations of Chart, Application, and CSM versions.
-chartValidationLog: []
-# - chartVersion: 2.0.0
-#   applicationVersion: 1.11.0
-#   csm: 1.2.0-alpha.16
-#   environment: baremetal
-#   result: PASS
-#   tester: rsjostrand-hpe
-#   date: 2021-11-17
+chartValidationLog:
+- chartVersion: 0.1.0
+  applicationVersion: 0.0.1-20220201202912.1ad88cd
+  csm: 1.2.0-alpha.52
+  environment: baremetal
+  result: PASS
+  tester: rsjostrand-hpe
+  date: 2022-02-04

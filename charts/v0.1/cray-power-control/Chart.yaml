@@ -12,6 +12,6 @@ dependencies:
 maintainers:
   - name: Hardware Management
     url: https://github.com/orgs/Cray-HPE/teams/hardware-management
-appVersion: "0.0.1"
+appVersion: 0.0.1-20220201202912.1ad88cd
 annotations:
   artifacthub.io/license: "MIT"
