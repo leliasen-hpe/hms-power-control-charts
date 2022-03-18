@@ -7,7 +7,7 @@
 #   tag: "" (default = "latest")
 #   pullPolicy: "" (default = "IfNotPresent")
 global:
-  appVersion: 0.0.5-20220317122020.1b19afe
+  appVersion: 0.0.5-20220318001813.5ad6425
 
 hms_ca_uri: ""
 
