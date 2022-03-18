@@ -7,7 +7,7 @@
 #   tag: "" (default = "latest")
 #   pullPolicy: "" (default = "IfNotPresent")
 global:
-  appVersion: 0.0.1-20220201202912.1ad88cd
+  appVersion: 0.0.5-20220318001813.5ad6425
 
 hms_ca_uri: ""
 
@@ -71,20 +71,19 @@ cray-service:
             configMapKeyRef:
               name: cray-power-control-cacert-info
               key: CA_URI
-      # TODO Will be added later
-      # livenessProbe:
-      #   httpGet:
-      #     port: 28007
-      #     path: /service/status
-      #   initialDelaySeconds: 15
-      #   periodSeconds: 5
-      # readinessProbe:
-      #   httpGet:
-      #     port: 28007
-      #     path: /service/status/details
-      #   initialDelaySeconds: 30
-      #   periodSeconds: 60
-      #   timeoutSeconds: 25
+      livenessProbe:
+        httpGet:
+          port: 28007
+          path: /liveness
+        initialDelaySeconds: 15
+        periodSeconds: 5
+      readinessProbe:
+        httpGet:
+          port: 28007
+          path: /readiness
+        initialDelaySeconds: 30
+        periodSeconds: 60
+        timeoutSeconds: 25
       volumeMounts:
         - name: cray-pki-cacert-vol
           mountPath: /usr/local/cray-pki

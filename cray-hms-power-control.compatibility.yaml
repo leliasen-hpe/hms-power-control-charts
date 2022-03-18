@@ -3,6 +3,7 @@
 chartVersionToCSMVersion:
   # Chart version: CSM version
   ">=0.0.1": "~1.3.0" # Chart Version: 2.0.0 <= x.y.z, CSM Version: 1.2.0 <= x.y.z < 1.3.0
+  ">=0.1.0": "~1.3.0"
 
 # The application version must be compliant to semantic versioning.
 # If the application makes a backwards incompatible change, then its major version needs to be increment.
@@ -10,7 +11,7 @@ chartVersionToCSMVersion:
 chartVersionToApplicationVersion:
   # Chart version: Application version
   "0.0.1": "0.0.1-20220201202912.1ad88cd"
-  "0.1.0": "0.0.1-20220201202912.1ad88cd"
+  "0.1.1": "0.0.5-20220317122020.1b19afe"
 
 
 # Test results for combinations of Chart, Application, and CSM versions.
