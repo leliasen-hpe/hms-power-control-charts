@@ -8,7 +8,7 @@
 #   pullPolicy: "" (default = "IfNotPresent")
 global:
   appVersion: 0.0.6-20220331212029.2cb1de3
-  testVersion: 0.0.6-20220331212029.2cb1de3
+  testVersion: 0.0.6-20220331212030.2cb1de3
 
 tests:
   image:
