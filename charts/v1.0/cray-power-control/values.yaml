@@ -1,0 +1,104 @@
+# Please refer to https://stash.us.cray.com/projects/CLOUD/repos/cray-charts/browse/stable/cray-service/values.yaml?at=refs%2Fheads%2Fmaster
+# for more info on values you can set/override
+# Note that cray-service.containers[*].image and cray-service.initContainers[*].image map values are one of the only structures that
+# differ from the standard kubernetes container spec:
+# image:
+#   repository: ""
+#   tag: "" (default = "latest")
+#   pullPolicy: "" (default = "IfNotPresent")
+global:
+  appVersion: 1.0.0
+  testVersion: 1.0.0
+
+tests:
+  image:
+    repository: artifactory.algol60.net/csm-docker/stable/cray-power-control-test
+    pullPolicy: IfNotPresent
+
+hms_ca_uri: ""
+
+cray-service:
+  type: "Deployment"
+  nameOverride: "cray-power-control"
+  fullnameOverride: "cray-power-control"
+  etcdCluster:
+    enabled: true
+  replicaCount: 3
+  affinity:
+    podAntiAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+      - topologyKey: kubernetes.io/hostname
+        labelSelector:
+          matchExpressions:
+            - key: app.kubernetes.io/name
+              operator: In
+              values:
+              - cray-power-control
+  strategy:
+    rollingUpdate:
+      maxUnavailable: 50%
+    type: RollingUpdate
+  containers:
+    cray-power-control:
+      name: "cray-power-control"
+      image:
+        repository: "artifactory.algol60.net/csm-docker/stable/cray-power-control"
+      resources:
+        limits:
+          cpu: "4"
+          memory: 4Gi
+        requests:
+          cpu: 500m
+          memory: 256Mi
+      ports:
+        - name: http
+          containerPort: 28007
+      env:
+        - name: LOG_LEVEL
+          value: "DEBUG"
+        - name: SMS_SERVER
+          value: "http://cray-smd"
+        - name: VAULT_ENABLED
+          value: "true"
+        - name: VAULT_ADDR
+          value: "http://cray-vault.vault:8200"
+        - name: VAULT_SKIP_VERIFY
+          value: "true"
+        - name: TRS_IMPLEMENTATION
+          value: "LOCAL"
+        - name: SERVICE_RESERVATION_VERBOSITY
+          value: "ERROR"
+        - name: HSMLOCK_ENABLED
+          value: "true"
+        - name: STORAGE
+          value: "ETCD"
+        - name: PCS_CA_URI
+          valueFrom:
+            configMapKeyRef:
+              name: cray-power-control-cacert-info
+              key: CA_URI
+      livenessProbe:
+        httpGet:
+          port: 28007
+          path: /liveness
+        initialDelaySeconds: 15
+        periodSeconds: 5
+      readinessProbe:
+        httpGet:
+          port: 28007
+          path: /readiness
+        initialDelaySeconds: 30
+        periodSeconds: 60
+        timeoutSeconds: 25
+      volumeMounts:
+        - name: cray-pki-cacert-vol
+          mountPath: /usr/local/cray-pki
+  volumes:
+    cray-pki-cacert-vol:
+      name: cray-pki-cacert-vol
+      configMap:
+        name: cray-configmap-ca-public-key
+  ingress:
+    enabled: true
+    uri: "/"
+    prefix: "/apis/power-control/v1/"
