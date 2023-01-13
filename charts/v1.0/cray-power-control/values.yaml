@@ -12,7 +12,7 @@ global:
 
 tests:
   image:
-    repository: artifactory.algol60.net/csm-docker/stable/cray-power-control-test
+    repository: artifactory.algol60.net/csm-docker/stable/cray-power-control-hmth-test
     pullPolicy: IfNotPresent
 
 hms_ca_uri: ""
