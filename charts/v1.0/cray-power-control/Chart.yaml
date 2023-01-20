@@ -7,7 +7,7 @@ sources:
   - "https://github.com/Cray-HPE/hms-power-control"
 dependencies:
   - name: cray-service
-    version: "~9.0.0"
+    version: "~7.0.0"
     repository: https://artifactory.algol60.net/artifactory/csm-helm-charts
 maintainers:
   - name: Hardware Management
