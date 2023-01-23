@@ -50,6 +50,7 @@ cray-service:
     rollingUpdate:
       maxUnavailable: 50%
     type: RollingUpdate
+  etcdWaitContainer: true
   containers:
     cray-power-control:
       name: "cray-power-control"
