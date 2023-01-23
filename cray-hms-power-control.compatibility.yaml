@@ -16,7 +16,8 @@ chartVersionToApplicationVersion:
   "0.1.1": "0.0.5-20220317122020.1b19afe"
   "0.2.0": "0.0.6-20220405201636.f7678eb"
   "1.0.0": "1.0.0"
-
+  "1.0.1": "1.0.0"
+  "1.1.0": "1.0.0"
 
 # Test results for combinations of Chart, Application, and CSM versions.
 chartValidationLog:
