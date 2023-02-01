@@ -33,4 +33,4 @@ spec:
           image: "{{ .Values.tests.image.repository }}:{{ .Values.global.testVersion }}"
           imagePullPolicy: "{{ .Values.tests.image.pullPolicy }}"
           command: ["/bin/sh", "-c"]
-          args: [ "entrypoint.sh tavern -c /src/app/tavern_global_config_ct_test_production.yaml -p /src/app/api/1-non-disruptive"]
+          args: ["entrypoint.sh tavern -c /src/app/tavern_global_config_ct_test_production.yaml -p /src/app/api/1-non-disruptive"]
