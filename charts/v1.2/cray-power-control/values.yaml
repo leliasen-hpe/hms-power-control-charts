@@ -93,13 +93,13 @@ cray-service:
       livenessProbe:
         httpGet:
           port: 28007
-          path: /liveness
+          path: /v1/liveness
         initialDelaySeconds: 15
         periodSeconds: 5
       readinessProbe:
         httpGet:
           port: 28007
-          path: /readiness
+          path: /v1/readiness
         initialDelaySeconds: 30
         periodSeconds: 60
         timeoutSeconds: 25
