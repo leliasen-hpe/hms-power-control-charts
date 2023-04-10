@@ -7,8 +7,8 @@
 #   tag: "" (default = "latest")
 #   pullPolicy: "" (default = "IfNotPresent")
 global:
-  appVersion: 1.6.0
-  testVersion: 1.6.0
+  appVersion: 1.8.0
+  testVersion: 1.8.0
 
 tests:
   image:
@@ -86,7 +86,7 @@ cray-service:
           containerPort: 28007
       env:
         - name: LOG_LEVEL
-          value: "DEBUG"
+          value: "INFO"
         - name: SMS_SERVER
           value: "http://cray-smd"
         - name: VAULT_ENABLED
