@@ -37,7 +37,7 @@ cray-etcd-base:
     extraVolumes:
       - configMap:
           defaultMode: 420
-          name: cray-bos-bitnami-etcd-config
+          name: cray-power-control-bitnami-etcd-config
         name: etcd-config
     resources:
       limits:
