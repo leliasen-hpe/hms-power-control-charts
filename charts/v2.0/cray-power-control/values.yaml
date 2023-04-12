@@ -19,8 +19,26 @@ cray-etcd-base:
   fullnameOverride: "cray-power-control"
   etcd:
     enabled: true
-    fullnameOverride: "cray-power-control-etcd"
-    nameOverride: "cray-power-control-etcd"
+    fullnameOverride: "cray-power-control-bitnami-etcd"
+    nameOverride: "cray-power-control-bitnami-etcd"
+    extraEnvVars:
+      - name: ETCD_HEARTBEAT_INTERVAL
+        value: "4200"
+      - name: ETCD_ELECTION_TIMEOUT
+        value: "21000"
+      - name: ETCD_MAX_SNAPSHOTS
+        value: "5"
+      - name: ETCD_QUOTA_BACKEND_BYTES
+        value: "10737418240"
+      - name: ETCD_SNAPSHOT_COUNT
+        value: "10000"
+      - name: ETCD_SNAPSHOT_HISTORY_LIMIT
+        value: "24"
+    extraVolumes:
+      - configMap:
+          defaultMode: 420
+          name: cray-power-control-bitnami-etcd-config
+        name: etcd-config
     resources:
       limits:
         cpu: "2"
