@@ -6,7 +6,8 @@ chartVersionToCSMVersion:
   ">=0.1.0": "~1.3.0"
   ">=0.2.0": "~1.3.0"
   ">=1.0.0": "~1.4.0"
-  ">=1.1.0": "~1.6.0"
+  ">=1.1.0": "~1.5.0"
+  ">=2.0.0": "~1.5.0"
 
 # The application version must be compliant to semantic versioning.
 # If the application makes a backwards incompatible change, then its major version needs to be increment.
@@ -28,6 +29,7 @@ chartVersionToApplicationVersion:
   "1.2.1": "1.6.0"
   "1.2.2": "1.7.0"
   "1.2.3": "1.8.0"
+  "2.0.0": "1.8.0"
 
 # Test results for combinations of Chart, Application, and CSM versions.
 chartValidationLog:
