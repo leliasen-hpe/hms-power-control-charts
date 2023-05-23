@@ -21,6 +21,12 @@ cray-etcd-base:
     enabled: true
     fullnameOverride: "cray-power-control-bitnami-etcd"
     nameOverride: "cray-power-control-bitnami-etcd"
+    disasterRecovery:
+      cronjob:
+        snapshotsDir: "/snapshots/cray-power-control-bitnami-etcd"
+        schedule: "0 */1 * * *"
+        historyLimit: 1
+        snapshotHistoryLimit: 24
     extraEnvVars:
       - name: ETCD_HEARTBEAT_INTERVAL
         value: "4200"
