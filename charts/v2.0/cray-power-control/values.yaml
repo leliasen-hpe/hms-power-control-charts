@@ -40,6 +40,8 @@ cray-etcd-base:
         value: "10000"
       - name: ETCD_SNAPSHOT_HISTORY_LIMIT
         value: "24"
+      - name: ETCD_DISABLE_PRESTOP
+        value: "yes"
     extraVolumes:
       - configMap:
           defaultMode: 420
