@@ -1,0 +1,147 @@
+# Please refer to https://stash.us.cray.com/projects/CLOUD/repos/cray-charts/browse/stable/cray-service/values.yaml?at=refs%2Fheads%2Fmaster
+# for more info on values you can set/override
+# Note that cray-service.containers[*].image and cray-service.initContainers[*].image map values are one of the only structures that
+# differ from the standard kubernetes container spec:
+# image:
+#   repository: ""
+#   tag: "" (default = "latest")
+#   pullPolicy: "" (default = "IfNotPresent")
+global:
+  appVersion: 2.0.0
+  testVersion: 2.0.0
+
+tests:
+  image:
+    repository: artifactory.algol60.net/csm-docker/stable/cray-power-control-hmth-test
+    pullPolicy: IfNotPresent
+cray-etcd-base:
+  nameOverride: "cray-power-control"
+  fullnameOverride: "cray-power-control"
+  etcd:
+    enabled: true
+    fullnameOverride: "cray-power-control-bitnami-etcd"
+    nameOverride: "cray-power-control-bitnami-etcd"
+    disasterRecovery:
+      cronjob:
+        snapshotsDir: "/snapshots/cray-power-control-bitnami-etcd"
+        schedule: "0 */1 * * *"
+        historyLimit: 1
+        snapshotHistoryLimit: 24
+    extraEnvVars:
+      - name: ETCD_HEARTBEAT_INTERVAL
+        value: "4200"
+      - name: ETCD_ELECTION_TIMEOUT
+        value: "21000"
+      - name: ETCD_MAX_SNAPSHOTS
+        value: "5"
+      - name: ETCD_QUOTA_BACKEND_BYTES
+        value: "10737418240"
+      - name: ETCD_SNAPSHOT_COUNT
+        value: "10000"
+      - name: ETCD_SNAPSHOT_HISTORY_LIMIT
+        value: "24"
+      - name: ETCD_DISABLE_PRESTOP
+        value: "yes"
+    extraVolumes:
+      - configMap:
+          defaultMode: 420
+          name: cray-power-control-bitnami-etcd-config
+        name: etcd-config
+    resources:
+      limits:
+        cpu: "2"
+        memory: 4Gi
+      requests:
+        cpu: 10m
+        memory: 64Mi
+
+hms_ca_uri: ""
+
+cray-service:
+  type: "Deployment"
+  nameOverride: "cray-power-control"
+  fullnameOverride: "cray-power-control"
+  replicaCount: 3
+  affinity:
+    podAntiAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+      - topologyKey: kubernetes.io/hostname
+        labelSelector:
+          matchExpressions:
+            - key: app.kubernetes.io/name
+              operator: In
+              values:
+              - cray-power-control
+  strategy:
+    rollingUpdate:
+      maxUnavailable: 50%
+    type: RollingUpdate
+  etcdWaitContainer: true
+  containers:
+    cray-power-control:
+      name: "cray-power-control"
+      image:
+        repository: "artifactory.algol60.net/csm-docker/stable/cray-power-control"
+      resources:
+        limits:
+          cpu: "4"
+          memory: 4Gi
+        requests:
+          cpu: 500m
+          memory: 256Mi
+      ports:
+        - name: http
+          containerPort: 28007
+      env:
+        - name: LOG_LEVEL
+          value: "INFO"
+        - name: SMS_SERVER
+          value: "http://cray-smd"
+        - name: VAULT_ENABLED
+          value: "true"
+        - name: VAULT_ADDR
+          value: "http://cray-vault.vault:8200"
+        - name: VAULT_SKIP_VERIFY
+          value: "true"
+        - name: TRS_IMPLEMENTATION
+          value: "LOCAL"
+        - name: SERVICE_RESERVATION_VERBOSITY
+          value: "ERROR"
+        - name: HSMLOCK_ENABLED
+          value: "true"
+        - name: STORAGE
+          value: "ETCD"
+        - name: PCS_CA_URI
+          valueFrom:
+            configMapKeyRef:
+              name: cray-power-control-cacert-info
+              key: CA_URI
+        - name: MAX_NUM_COMPLETED
+          value: 20000
+        - name: EXPIRE_TIME_MINS
+          value: 1440
+      livenessProbe:
+        httpGet:
+          port: 28007
+          path: /v1/liveness
+        initialDelaySeconds: 15
+        periodSeconds: 5
+      readinessProbe:
+        httpGet:
+          port: 28007
+          path: /v1/readiness
+        initialDelaySeconds: 30
+        periodSeconds: 60
+        timeoutSeconds: 25
+      volumeMounts:
+        - name: cray-pki-cacert-vol
+          mountPath: /usr/local/cray-pki
+  volumes:
+    cray-pki-cacert-vol:
+      name: cray-pki-cacert-vol
+      configMap:
+        name: cray-configmap-ca-public-key
+  ingress:
+    enabled: true
+    uri: "/v1/"
+    prefix: "/apis/power-control/v1/"
