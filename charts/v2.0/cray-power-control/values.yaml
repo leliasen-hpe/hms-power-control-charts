@@ -42,6 +42,15 @@ cray-etcd-base:
         value: "24"
       - name: ETCD_DISABLE_PRESTOP
         value: "yes"
+      - name: ETCD_AUTO_COMPACTION_MODE
+        value: "revision"
+      - name: ETCD_AUTO_COMPACTION_RETENTION
+        value: "10000"
+# autoCompactionMode: periodic
+# ‘periodic’ for duration based retention, defaulting to hours if no time unit is provided (e.g. ‘5m’).
+# ‘revision’ for revision number based retention.
+# autoCompactionRetention: 1  # Auto compaction retention. 0 means disable auto compaction.
+
     extraVolumes:
       - configMap:
           defaultMode: 420
