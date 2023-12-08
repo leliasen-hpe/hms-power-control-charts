@@ -42,7 +42,7 @@ cray-etcd-base:
         value: "24"
       - name: ETCD_DISABLE_PRESTOP
         value: "yes"
-    autoCompactionMode: periodic
+    autoCompactionMode: revision
     # ‘periodic’ for duration based retention, defaulting to hours if no time unit is provided (e.g. ‘5m’).
     # ‘revision’ for revision number based retention.
     autoCompactionRetention: 10000  # Auto compaction retention. 0 means disable auto compaction.
