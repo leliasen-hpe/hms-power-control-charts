@@ -65,8 +65,8 @@ cray-etcd-base:
       - |
         cp /csm/etcd.conf.yml /opt/bitnami/etcd/conf/etcd.yaml
         sed -i s/POD_NAME/${MY_POD_NAME}/ /opt/bitnami/etcd/conf/etcd.yaml
-        echo "autoCompactionMode: ${ETCD_AUTO_COMPACTION_MODE}" >> /opt/bitnami/etcd/conf/etcd.yaml
-        echo "autoCompactionRetention: ${ETCD_AUTO_COMPACTION_RETENTION}" >> /opt/bitnami/etcd/conf/etcd.yaml
+        echo "auto-compaction-mode: ${ETCD_AUTO_COMPACTION_MODE}" >> /opt/bitnami/etcd/conf/etcd.yaml
+        echo "auto-compaction-retention: ${ETCD_AUTO_COMPACTION_RETENTION}" >> /opt/bitnami/etcd/conf/etcd.yaml
         /opt/bitnami/scripts/etcd/entrypoint.sh /opt/bitnami/scripts/etcd/run.sh
 
 hms_ca_uri: ""
