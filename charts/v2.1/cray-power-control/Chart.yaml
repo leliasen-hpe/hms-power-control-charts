@@ -1,6 +1,6 @@
 apiVersion: v2
 name: "cray-power-control"
-version: 2.1.1
+version: 2.1.2
 description: "Kubernetes resources for cray-power-control"
 home: "https://github.com/Cray-HPE/hms-power-control-charts"
 sources:
